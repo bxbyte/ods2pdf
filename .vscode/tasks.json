@@ -1,0 +1,17 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Enter nix-shell & zsh env",
+        "type": "shell",
+        "linux": {
+          "command": "nix-shell --command 'zsh -is'"
+        },
+        "presentation": {
+          "reveal": "always",
+          "panel": "new"
+        },
+        "runOptions": { "runOn": "folderOpen" }
+      }
+    ]
+  }
