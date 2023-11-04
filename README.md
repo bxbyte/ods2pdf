@@ -66,10 +66,10 @@ Otherwise following this format :
 
 B1  Name
 B2  Address
-B3  CityCode  {code}  ^(?P<code>\d{2})
+B3  CityCode
+B3  CityPrefix  {code}  ^(?P<code>\d{2})
 D1  Phone
 D2  Mail
-D3  
 ```
 
 ---
