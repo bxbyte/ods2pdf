@@ -1,3 +1,6 @@
+# Cache
 __pycache__/
 .trash/
-.venv/
+
+# Build
+ods2pdf.oxt

@@ -15,4 +15,4 @@ uninstall:
 	unopkg remove $(ext_name).oxt
 
 clean_lock:
-	rm -f $(HOME)/.config/libreoffice/*/.lock
+	rm -f $(HOME)/.config/libreoffice/**/.lock
