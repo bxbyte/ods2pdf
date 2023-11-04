@@ -1,0 +1,21 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<description
+ xmlns="http://openoffice.org/extensions/description/2006"
+ xmlns:dep="http://openoffice.org/extensions/description/2006"
+ xmlns:xlink="http://www.w3.org/1999/xlink">
+	<icon>
+		<default xlink:href="assets/icon.svg" />
+	</icon>
+	<version value="1.0"/>
+	<registration>
+		<simple-license accept-by="admin" default-license-id="ID0" suppress-on-update="false" >
+			<license-text xlink:href="assets/license.txt" lang="en" license-id="ID0" />
+		</simple-license>
+	</registration>
+     <publisher>
+	      <name xlink:href="https://github.com/bxbyte/ods2pdf">BxByte</name>
+      </publisher>
+       <display-name>
+            <name>ODS2PDF</name>
+       </display-name>
+</description>
