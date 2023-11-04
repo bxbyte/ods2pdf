@@ -18,18 +18,19 @@ A simple LibreOffice extention for Calc that transcribe cells to PDF file's fiel
 ## Installation
 
 Download the extension [here](https://github.com/bxbyte/ods2pdf/releases/tag/release).
-Then 
+
+Then navigate on LibreOffice to `Tools>Extension Manager...` menu, then click on the `Add` button and select your `ods2pdf.oxt` file from the download.
 
 
 ## Configuration
 
 ### Template
 
-Go to the `Tools>Macro>Run Macro..` menu, then in the next dialog navigate to `My Macros>ods2pdf.oxt>main` and click on the `configure_template` macro. Now select your template in the file dialog (a .pdf file).
+Go to the `Tools>Macro>Run Macro..` LibreOffice menu, then in the next dialog navigate to `My Macros>ods2pdf.oxt>main` and click on the `configure_template` macro. Now select your template in the file dialog (a .pdf file).
 
 ### Table
 
-Go to the `Tools>Macro>Run Macro..` menu, then in the next dialog navigate to `My Macros>ods2pdf.oxt>main` and click on the `configure_table` macro. Now select your table in the file dialog (a .o2p file).
+Go to the `Tools>Macro>Run Macro..` LibreOffice menu, then in the next dialog navigate to `My Macros>ods2pdf.oxt>main` and click on the `configure_table` macro. Now select your table in the file dialog (a .o2p file).
 
 
 ## Usage
