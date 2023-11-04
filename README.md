@@ -12,7 +12,9 @@ A simple LibreOffice extention for Calc that transcribe cells to PDF file's fiel
     - [Template](#template)
     - [Table](#table)
   - [Usage](#usage)
-  - [O2P Files](#o2p-files)
+  - [O2P Table Files](#o2p-table-files)
+    - [Definition](#definition)
+    - [Exemple](#exemple)
 
 
 ## Installation
@@ -40,9 +42,11 @@ Go to the `Tools>Macro>Run Macro..` LibreOffice menu, then in the next dialog na
 Now to run the program, click on the `ODS to PDF` icon next to the `Export directly to PDF` icon on the top left side of the window.
 
 
-## O2P Files
+## O2P Table Files
 
-An ODF cells to PDF fiels table file.
+A file that made the connection between ODF cells and PDF fiels.
+
+### Definition
 
 Everything prefixed with '#' is commented to the end of the line.
 
@@ -54,6 +58,19 @@ Otherwise following this format :
 - A field name is a string of non space character
 - A format string is a string template that can be formated with the python string.format() method, go see https://docs.python.org/fr/3.5/library/string.htmlformatstrings
 - A regexp string to match some named or not groups, recommended to test it on https://regex101.com/
+
+### Exemple
+
+```o2p
+# Person fields
+
+B1  Name
+B2  Address
+B3  CityCode  {code}  ^(?P<code>\d{2})
+D1  Phone
+D2  Mail
+D3  
+```
 
 ---
 

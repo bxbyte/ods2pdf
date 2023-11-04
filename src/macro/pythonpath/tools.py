@@ -20,7 +20,7 @@ def load_table(file_path: str) -> typing.Generator[tuple[str, str], None, None]:
             try:
                 cell_id, field_name, options = search(r"^(\S*)\s+(\S*)\s*(.*)?$", line).groups()
                 if options:
-                    yield cell_id, field_name, *options.rsplit(' ', 1)
+                    yield cell_id, field_name, *map(lambda s: s.strip(), options.rsplit(' ', 1))
                 else:
                     yield cell_id, field_name
             except Exception:
