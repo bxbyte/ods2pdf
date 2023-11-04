@@ -19,7 +19,9 @@ A simple LibreOffice extention for Calc that transcribe cells to PDF file's fiel
 
 Download the extension [here](https://github.com/bxbyte/ods2pdf/releases/tag/release).
 
-Then navigate on LibreOffice to `Tools>Extension Manager...` menu, then click on the `Add` button and select your `ods2pdf.oxt` file from the download.
+Then navigate on LibreOffice to `Tools>Extension Manager...` menu, then click on the `Add` button and select your `ods2pdf.oxt` file downloaded before in the file dialog.
+
+<u>You must also accept the Conditions & Terms of Usage (GNU 3 license).</u>
 
 
 ## Configuration
