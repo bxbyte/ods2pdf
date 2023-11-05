@@ -1,7 +1,7 @@
 import typing
 
 from pypdf import PdfWriter
-from re import sub, search
+from re import sub, search, split
 from io import BytesIO
 
 
@@ -18,10 +18,9 @@ def load_table(file_path: str) -> typing.Generator[tuple[str, str], None, None]:
         for line in file.readlines():
             line = sub(r"#.*$|\n|\r", '', line) # Remove comments & line escape char
             try:
-                cell_id, field_name, options = search(r"^(\S*)\s+(\S*)\s*(.*)?$", line).groups()
+                cell_id, field_name, options = search(r"^(\S*)[\s|\t]+(\S*)[\s|\t]+(.*)?$", line).groups()
                 if options:
-                    options = sub(r"\t+|\s+", ' ')
-                    yield cell_id, field_name, *map(lambda s: s.strip(), options.rsplit(' ', 1))
+                    yield cell_id, field_name, *map(lambda s: s.strip(), split(r"(.*)[\s|\t]+", options, 1))
                 else:
                     yield cell_id, field_name
             except Exception:
