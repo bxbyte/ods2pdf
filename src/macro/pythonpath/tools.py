@@ -19,6 +19,8 @@ def load_table(file_path: str) -> typing.Generator[tuple[str, str], None, None]:
             line = sub(r"#.*$|\n|\r", '', line) # Remove comments & line escape char
             try:
                 cell_id, field_name, options = search(r"^(\S*)\s+(\S*)\s*(.*)?$", line).groups()
+                cell_id = cell_id.strip()
+                field_name = field_name.strip()
                 if options:
                     yield cell_id, field_name, *map(lambda s: s.strip(), options.rsplit(' ', 1))
                 else:
