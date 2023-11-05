@@ -1,7 +1,6 @@
 from __future__ import annotations
 import typing
 
-
 from uno import getCurrentContext, getComponentContext, fileUrlToSystemPath
 
 

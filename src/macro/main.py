@@ -1,6 +1,7 @@
 import sys
 import os.path as path
 
+from shutil import copyfile
 from re import search
 from base64 import b64encode, b64decode
 from io import BytesIO
@@ -14,7 +15,7 @@ except Exception:
 
 from dialog import msgbox, filebox
 from tools import generate_from_fields, load_table
-from config import load_config, ENCODING
+from config import load_config, ENCODING, CONFIG_PATH
 
 
 class ODS2PDFError(Exception):
@@ -96,9 +97,18 @@ def configure_table(*args):
         msgbox("Table configured.", "ODS2PDF")
 
 
+def import_configuration(*args):
+    """Inport a o2p.json file.
+    """
+    config_path = filebox(("JSON Configuration file (.json)", "*.json"), mode=10)
+    copyfile(config_path, CONFIG_PATH)
+    msgbox("Configuration imported.")
+    
+
 ### Exported python functions
 g_exportedScripts = (
     export_fields_dialog,
+    import_configuration,
     configure_template,
     configure_table
 )
