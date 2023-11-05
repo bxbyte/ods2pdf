@@ -100,7 +100,7 @@ def configure_table(*args):
 def import_configuration(*args):
     """Inport a o2p.json file.
     """
-    config_path = filebox(("JSON Configuration file (.json)", "*.json"), mode=10)
+    config_path = filebox(("JSON Configuration file (.json)", "*.json"))
     if not config_path:
         return
     
