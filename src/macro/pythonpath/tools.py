@@ -1,8 +1,8 @@
 import typing
 
-from pypdf import PdfReader, PdfWriter
-from pypdf.generic import NameObject, BooleanObject
+from pypdf import PdfWriter
 from re import sub, search
+from io import BytesIO
 
 
 def load_table(file_path: str) -> typing.Generator[tuple[str, str], None, None]:
@@ -27,31 +27,22 @@ def load_table(file_path: str) -> typing.Generator[tuple[str, str], None, None]:
                 pass
 
 
-def generate_from_fields(template_path: str, result_path: str, fields_data: dict[str, str]):
+def generate_from_fields(pdf_stream: BytesIO, result_path: str, fields_data: dict[str, str]):
     """Create a PdfWritre with fields filled.
 
     Args:
-        template_path (str): File path to pdf template.
+        pdf_stream (StrByteType): File path to pdf template.
         result_path (str): File path to the pdf result.
         fields_data (dict[str, str]): Pair of fields key-value.
 
     Returns:
         PdfWriter: Filled PdfWriter.
     """
-    reader = PdfReader(template_path, strict=False)
-    reader.trailer["/Root"]["/AcroForm"].update(
-        {NameObject("/NeedAppearances"): BooleanObject(True)}
-    )
-    
-    writer = PdfWriter()
-    writer._root_object.update({
-        NameObject("/AcroForm"): reader.trailer["/Root"]["/AcroForm"]
-    })
+    writer = PdfWriter(clone_from=pdf_stream)
 
-    for i, page in enumerate(reader.pages):
-        writer.add_page(page)
+    for page in writer.pages:
         writer.update_page_form_field_values(
-            writer.get_page(i),
+            page,
             fields_data
         )
     
