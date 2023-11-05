@@ -52,7 +52,7 @@ def export_fields(*args):
                 try:
                     fields_data[field] = FORMATTER.format(format_str, *search_res.groups(), **search_res.groupdict())
                 except (KeyError, IndexError, AttributeError):
-                    fields_data[field] = ""
+                    pass
             else:
                 fields_data[field] = sheet.getCellRangeByName(cell_id).getString()
         
