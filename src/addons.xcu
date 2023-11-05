@@ -31,7 +31,7 @@
                         <value xml:lang="en">ODS to PDF</value>
                      </prop>
                      <prop oor:name="URL" oor:type="xs:string">
-                        <value>vnd.sun.star.script:ods2pdf.oxt|macro|main.py$export_fields_dialog?language=Python&amp;location=user:uno_packages</value>
+                        <value>vnd.sun.star.script:ods2pdf.oxt|macro|main.py$export_fields?language=Python&amp;location=user:uno_packages</value>
 	       	         </prop>
                      <prop oor:name="Target" oor:type="xs:string">
                         <value>_self</value>
@@ -45,7 +45,7 @@
       <node oor:name="Images">
          <node oor:name="ODS2PDF.OfficeToolbarMerging.N001" oor:op="replace">
 	         <prop oor:name="URL" oor:type="xs:string">
-               <value>vnd.sun.star.script:ods2pdf.oxt|macro|main.py$export_fields_dialog?language=Python&amp;location=user:uno_packages</value>
+               <value>vnd.sun.star.script:ods2pdf.oxt|macro|main.py$export_fields?language=Python&amp;location=user:uno_packages</value>
             </prop>
             <node oor:name="UserDefinedImages">
                <prop oor:name="ImageSmallURL" oor:type="xs:string">

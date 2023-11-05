@@ -16,6 +16,7 @@ except Exception:
 from dialog import msgbox, filebox
 from tools import generate_from_fields, load_table
 from config import load_config, ENCODING, CONFIG_PATH
+from formater import FORMATER
 
 
 class ODS2PDFError(Exception):
@@ -25,7 +26,7 @@ class ODS2PDFError(Exception):
 ### Here's the LibreOffice callable functions
 
 
-def export_fields_dialog(*args):
+def export_fields(*args):
     """Export configured cells into the configured template's PDF file fields.
     """
     global XSCRIPTCONTEXT
@@ -48,12 +49,11 @@ def export_fields_dialog(*args):
                 format_str = options[0]
                 regexp = options[1] if len(options) == 2 else r".*"
                 search_res = search(regexp, sheet.getCellRangeByName(cell_id).getString())
-                if not search_res:
-                    raise ODS2PDFError(f"no match found for {cell_id} with regexp: {regexp}")
-                fields_data[field] = format_str.format(*search_res.groups(), **search_res.groupdict())
-                    
+                try:
+                    fields_data[field] = FORMATER.format(format_str, *search_res.groups(), **search_res.groupdict())
+                except (KeyError, IndexError, AttributeError):
+                    fields_data[field] = ""
             else:
-                search_res = sheet[cell_id].getString()
                 fields_data[field] = sheet.getCellRangeByName(cell_id).getString()
         
         generate_from_fields(
@@ -73,11 +73,11 @@ def configure_template(*args):
             ("PDF Files (.pdf)", "*.pdf"),
             mode=11
         )
-        if template_b64:
-            with open(template_b64, "rb") as file:
-                config["template_b64"] = b64encode(file.read()).decode(ENCODING)
-        else:
-            raise ODS2PDFError("no template selected !")
+        if not template_b64:
+            return
+        
+        with open(template_b64, "rb") as file:
+            config["template_b64"] = b64encode(file.read()).decode(ENCODING)
 
         msgbox("Template configured.", "ODS2PDF")
 
@@ -89,10 +89,10 @@ def configure_table(*args):
         table_path = filebox(
             ("ODS2PDF Files (.o2p)", "*.o2p")
         )
-        if table_path:
-            config["table"] = tuple(load_table(table_path))
-        else:
-            raise ODS2PDFError("no o2p table selected !")
+        if not table_path:
+            return
+        
+        config["table"] = tuple(load_table(table_path))
 
         msgbox("Table configured.", "ODS2PDF")
 
@@ -101,13 +101,16 @@ def import_configuration(*args):
     """Inport a o2p.json file.
     """
     config_path = filebox(("JSON Configuration file (.json)", "*.json"), mode=10)
+    if not config_path:
+        return
+    
     copyfile(config_path, CONFIG_PATH)
     msgbox("Configuration imported.")
     
 
 ### Exported python functions
 g_exportedScripts = (
-    export_fields_dialog,
+    export_fields,
     import_configuration,
     configure_template,
     configure_table

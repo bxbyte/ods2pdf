@@ -56,7 +56,11 @@ Otherwise following this format :
 
 - A cell identifier is like A1 or WS28
 - A field name is a string of non space character
-- A format string is a string template that can be formated with the python string.format() method, go see https://docs.python.org/fr/3.5/library/string.htmlformatstrings
+- A format string is a string template that can be formated with the python string.format() method, 
+  go see https://docs.python.org/fr/3.5/library/string.htmlformatstrings. The formated was extented and now support :
+    - 'u' Specifier for convertion to uppercase.
+    - 'l' Specifier for convertion to lowercase.
+    - 't' Specifier for convertion to title.
 - A regexp string to match some named or not groups, recommended to test it on https://regex101.com/
 
 ### Exemple
