@@ -26,7 +26,7 @@ class ExtendedFormatter(Formatter):
             case 't':
                 return str(value).title()
             case _:
-                super(ExtendedFormatter, self).convert_field(value, conversion)
+                return super(ExtendedFormatter, self).convert_field(value, conversion)
 
 
 FORMATTER = ExtendedFormatter()
