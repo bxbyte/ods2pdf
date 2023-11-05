@@ -16,7 +16,7 @@ except Exception:
 from dialog import msgbox, filebox
 from tools import generate_from_fields, load_table
 from config import load_config, ENCODING, CONFIG_PATH
-from formater import FORMATER
+from formatter import FORMATTER
 
 
 class ODS2PDFError(Exception):
@@ -50,7 +50,7 @@ def export_fields(*args):
                 regexp = options[1] if len(options) == 2 else r".*"
                 search_res = search(regexp, sheet.getCellRangeByName(cell_id).getString())
                 try:
-                    fields_data[field] = FORMATER.format(format_str, *search_res.groups(), **search_res.groupdict())
+                    fields_data[field] = FORMATTER.format(format_str, *search_res.groups(), **search_res.groupdict())
                 except (KeyError, IndexError, AttributeError):
                     fields_data[field] = ""
             else:

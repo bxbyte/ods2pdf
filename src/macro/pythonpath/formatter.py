@@ -29,4 +29,4 @@ class ExtendedFormatter(Formatter):
                 super(ExtendedFormatter, self).convert_field(value, conversion)
 
 
-FORMATER = ExtendedFormatter()
+FORMATTER = ExtendedFormatter()
