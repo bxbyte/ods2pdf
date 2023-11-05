@@ -27,18 +27,18 @@ def load_table(file_path: str) -> typing.Generator[tuple[str, str], None, None]:
                 pass
 
 
-def generate_from_fields(pdf_stream: BytesIO, result_path: str, fields_data: dict[str, str]):
-    """Create a PdfWritre with fields filled.
+def generate_from_fields(pdf_bytes: BytesIO, result_path: str, fields_data: dict[str, str]):
+    """Write a PDF with fields filled by fields_data.
 
     Args:
-        pdf_stream (StrByteType): File path to pdf template.
+        pdf_bytes (BytesIO): File path to pdf template.
         result_path (str): File path to the pdf result.
         fields_data (dict[str, str]): Pair of fields key-value.
 
     Returns:
         PdfWriter: Filled PdfWriter.
     """
-    writer = PdfWriter(clone_from=pdf_stream)
+    writer = PdfWriter(clone_from=pdf_bytes)
 
     for page in writer.pages:
         writer.update_page_form_field_values(
