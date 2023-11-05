@@ -16,7 +16,7 @@ except Exception:
 from dialog import msgbox, filebox
 from tools import generate_from_fields, load_table
 from config import load_config, ENCODING, CONFIG_PATH
-from formatter import FORMATTER
+from format import FORMATTER
 
 
 class ODS2PDFError(Exception):
