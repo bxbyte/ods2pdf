@@ -28,3 +28,5 @@ class ExtendedFormatter(Formatter):
                 return str(value).title()
             case _:
                 return super(ExtendedFormatter, self).convert_field(value, conversion)
+            
+FORMATTER = ExtendedFormatter()

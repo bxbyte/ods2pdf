@@ -1,8 +1,12 @@
 from __future__ import annotations
 import typing
 
-from uno import fileUrlToSystemPath
-from const import CTX, SM
+from uno import fileUrlToSystemPath, getCurrentContext, getComponentContext
+
+
+XSC = getCurrentContext()
+CTX = getComponentContext()
+SM = CTX.getServiceManager()
 
 
 def create_instance(name: str, with_context: bool = False) -> typing.Any:

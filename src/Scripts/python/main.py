@@ -3,6 +3,7 @@
 
 import typing
 import sys
+from time import sleep
 from zipfile import ZipFile
 from os import remove, close
 from shutil import move
@@ -11,21 +12,27 @@ from re import search
 from tempfile import mkstemp
 from uno import fileUrlToSystemPath
 
-# Import pythonpath (ugly but required)
+
 global XSCRIPTCONTEXT
 DOC = XSCRIPTCONTEXT.getDocument()  # noqa: F821
 PYTHON_PATH = join(fileUrlToSystemPath(DOC.URL), "Scripts/python/pythonpath")
+
+
+# Import pythonpath (ugly but required)
 if not PYTHON_PATH in sys.path:
     sys.path.insert(0, PYTHON_PATH)
 
 from pypdf import PdfWriter
-from dialog import msgbox, filebox
+from dialog import msgbox, filebox, create_instance
 from yaml import load, SafeLoader
-from const import FORMATTER
+from format import FORMATTER
+
 
 ARCHIVE_PATH = fileUrlToSystemPath(DOC.getURL())
-CONFIG_PATH = "Config/config.yml"
-TEMPLATE_PATH = "Config/template.pdf"
+CONFIG_PATH = "O2P/config.yml"
+TEMPLATE_PATH = "O2P/template.pdf"
+DISPATCHER_SERVICE="com.sun.star.frame.DispatchHelper"
+DISP = create_instance(DISPATCHER_SERVICE)
 
 
 class CellConfig(typing.TypedDict):
@@ -80,27 +87,43 @@ def export(*args):
             msgbox("Done.", "ODS2PDF")
 
 
-def set_template(*args):    
-    template_path = filebox(("PDF File (.pdf)", "*.pdf"), mode=11)
-    with open(template_path, 'rb') as template_file:
-        template_data = template_file.read()
-        
+def uno_call(callStr: str):
+    DISP.executeDispatch(DOC.CurrentController.Frame, callStr,  "", 0, ())
+
+
+def upd_zip(path: str, data: typing.Any):
     tmpfd, tmp_path = mkstemp()
     close(tmpfd)
 
-    with ZipFile(ARCHIVE_PATH, 'r') as zin:
+    with ZipFile(ARCHIVE_PATH, 'r') as zin: # Edit archive
         with ZipFile(tmp_path, 'w') as zout:
             zout.comment = zin.comment
             for item in zin.infolist():
-                if item.filename != TEMPLATE_PATH:
+                if item.filename != path:
                     zout.writestr(item, zin.read(item.filename))
-            with zout.open(TEMPLATE_PATH, 'w') as zfile:
-                zfile.write(template_data)
+            with zout.open(path, 'w') as zfile:
+                zfile.write(data)
             
     remove(ARCHIVE_PATH)
     move(tmp_path, ARCHIVE_PATH)
     
-    DOC.dispose()
+    uno_call(".uno:Reload") # Reload file (needed)
+
+
+def set_template(*args):    
+    template_path = filebox(("PDF File (.pdf)", "*.pdf"), mode=11)
+    if not template_path:
+        return
+    with open(template_path, 'rb') as template_file:
+        upd_zip(TEMPLATE_PATH, template_file.read())
+
+
+def set_config(*args):    
+    config_path = filebox(("YML File (.yml)", "*.yml"), mode=11)
+    if not config_path:
+        return
+    with open(config_path, 'rb') as config_file:
+        upd_zip(CONFIG_PATH, config_file.read())
 
 
 # Remove pythonpath from current python interpreter to avoid collision
@@ -110,4 +133,5 @@ sys.path.remove(PYTHON_PATH)
 g_exportedScripts = (
     export,
     set_template,
+    set_config
 )
