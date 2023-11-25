@@ -1,61 +1,58 @@
 # ODS to PDF
 
-A simple LibreOffice extention for Calc that transcribe cells to PDF file's fields.
+A simple LibreOffice embeded macro for Calc that transcribe cells to PDF file's fields.
 
-
-## Table of contents
-
+## Table of Contents
 - [ODS to PDF](#ods-to-pdf)
-  - [Table of contents](#table-of-contents)
+  - [Table of Contents](#table-of-contents)
   - [Installation](#installation)
-  - [Configuration](#configuration)
-    - [Template](#template)
-    - [Table](#table)
   - [Usage](#usage)
-  - [O2P Table Files](#o2p-table-files)
+    - [Export](#export)
+    - [Set Template](#set-template)
+  - [O2P YAML Files](#o2p-yaml-files)
     - [Definition](#definition)
     - [Exemple](#exemple)
 
+---
 
 ## Installation
 
-Download the extension [here](https://github.com/bxbyte/ods2pdf/releases/tag/release).
+Download the repo with `git clone git@github.com:bxbyte/ods2pdf.git`
 
-Then navigate on LibreOffice to `Tools>Extension Manager...` menu, then click on the `Add` button and select your `ods2pdf.oxt` file downloaded before in the file dialog.
+Then add your pdf template as template.pdf in `src/Config/`, your LibreOffice Calc sheet in the main folder as `template_src.ods`.
 
-<u>You must also accept the Conditions & Terms of Usage (GNU 3 license).</u>
-
-
-## Configuration
-
-### Template
-
-Go to the `Tools>Macro>Run Macro..` LibreOffice menu, then in the next dialog navigate to `My Macros>ods2pdf.oxt>main` and click on the `configure_template` macro. Now select your template in the file dialog (a .pdf file).
-
-### Table
-
-Go to the `Tools>Macro>Run Macro..` LibreOffice menu, then in the next dialog navigate to `My Macros>ods2pdf.oxt>main` and click on the `configure_table` macro. Now select your table in the file dialog (a .o2p file).
-
+Now execute the makefile with `make` and your LibreOffice Calc sheet shoud be `template.ods`.
 
 ## Usage
 
-Now to run the program, click on the `ODS to PDF` icon next to the `Export directly to PDF` icon on the top left side of the window.
+### Export
 
+Go to the `Tools>Macro>Run Macro..` LibreOffice menu, then in the next dialog navigate to `template.ods>main` and click on the `export` macro. Now select the output file in the file dialog (a .pdf file) and wait for the export.
 
-## O2P Table Files
+### Set Template
+
+Go to the `Tools>Macro>Run Macro..` LibreOffice menu, then in the next dialog navigate to `template.ods>main` and click on the `set_template` macro. Now select your template in the file dialog (a .pdf file).
+
+---
+
+## O2P YAML Files
 
 A file that made the connection between ODF cells and PDF fiels.
 
 ### Definition
 
-Everything prefixed with '#' is commented to the end of the line.
-
-Otherwise following this format :
-
-`<cell identifier> <field name> <?format string> <?regexp>`
+```yml
+page_name:
+    fied_name: cell name
+    # Or
+    field_name:
+        cell: cell name
+        format: format string
+        regex: regex string
+```
 
 - A cell identifier is like A1 or WS28
-- A field name is a string of non space character
+- A field name is a string of non empty character
 - A format string is a string template that can be formated with the python string.format() method, 
   go see https://docs.python.org/fr/3.5/library/string.htmlformatstrings. The formated was extented and now support :
     - 'u' Specifier for convertion to uppercase.
@@ -65,15 +62,17 @@ Otherwise following this format :
 
 ### Exemple
 
-```o2p
+```yml
 # Person fields
-
-B1  Name
-B2  Address
-B3  CityCode
-B3  CityPrefix  {code}  ^(?P<code>\d{2})
-D1  Phone
-D2  Mail
+"person 1":
+    Address: B1
+    CityCode: B3
+    CityPrefix:
+        cell: B3
+        format: "{code}"
+        regex: ^(?P<code>\d{2})
+    Phone: D1
+    Mail: D2
 ```
 
 ---

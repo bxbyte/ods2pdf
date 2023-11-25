@@ -1,14 +1,8 @@
 from __future__ import annotations
 import typing
 
-from uno import getCurrentContext, getComponentContext, fileUrlToSystemPath
-
-
-XSC = getCurrentContext()
-CTX = getComponentContext()
-SM = CTX.getServiceManager()
-PATH_SETTINGS = CTX.getByName("/singletons/com.sun.star.util.thePathSettings")
-CONFIG_DIR_PATH = fileUrlToSystemPath(PATH_SETTINGS.UserConfig)
+from uno import fileUrlToSystemPath
+from const import CTX, SM
 
 
 def create_instance(name: str, with_context: bool = False) -> typing.Any:

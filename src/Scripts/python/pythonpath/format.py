@@ -1,5 +1,6 @@
 from string import Formatter
 
+
 class ExtendedFormatter(Formatter):
     """An extended format string formatter
 
@@ -27,6 +28,3 @@ class ExtendedFormatter(Formatter):
                 return str(value).title()
             case _:
                 return super(ExtendedFormatter, self).convert_field(value, conversion)
-
-
-FORMATTER = ExtendedFormatter()

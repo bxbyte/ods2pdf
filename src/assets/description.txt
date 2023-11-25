@@ -1,3 +1,0 @@
-ODS2PDF LibreOffice extension.
-Transcribe LibreOffice Calc cells to PDF file's fields.
-Copyright (c) BxByte 2023.

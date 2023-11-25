@@ -1,6 +1,9 @@
-# Cache
-__pycache__/
+# Cached files
 .trash/
+__pycache__/
 
-# Build
-ods2pdf.oxt
+# Test files
+template.ods
+template_src.ods
+.~lock.*
+**.pdf

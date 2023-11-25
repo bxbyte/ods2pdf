@@ -1,5 +1,6 @@
 {
     "python.analysis.extraPaths": [
-        "./src/macro/pythonpath"
+        "./src/macro/pythonpath",
+        "./src/Scripts/python/pythonpath"
     ]
 }

@@ -1,18 +1,19 @@
-ext_name=ods2pdf
+here=$(shell pwd)
+# Build folder
+build_dir=/tmp/build_ods2pdf
+# Folder injected
+inject_dir=src
+# Source document
+src_doc=template_src.ods
+# Result document
+res_doc=template.ods
 
-all: pkg install
+all: clear inject
 
-pkg:
-	rm -f $(ext_name).oxt
-	cd src && zip -r ../$(ext_name).oxt ./* -x */__pycache__/* && cd ..
+clear:
+	find . -regex ".*pycache.*" -delete
+	rm -rf $(build_dir)
+	rm -rf $(res_doc)
 
-install: clean_lock
-	unopkg add "$(ext_name).oxt"
-	
-update: pkg uninstall install
-
-uninstall:
-	unopkg remove $(ext_name).oxt
-
-clean_lock:
-	rm -f $(HOME)/.config/libreoffice/**/.lock
+inject:
+	python inject.py $(inject_dir) $(src_doc) $(res_doc)
